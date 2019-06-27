@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!-- <script src="https://unpkg.com/vue"></script> -->
+</head>
+<body>
+  <div id="app">
+    {{ message }}
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+    module.exports = {
+      mode: 'develop'
+    }
+
+    const replace = require('rollup-plugin-replace')
+
+    rollup({
+      // ...
+      plugins: [
+        replace({
+          'process.env.NODE_ENV': JSON.stringify('production')
+        })
+      ]
+    }).then(...)
+  </script>
+</body>
+</html>
