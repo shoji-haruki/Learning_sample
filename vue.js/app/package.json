@@ -1,0 +1,8 @@
+{
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
+  }
+  "alias": {
+    "vue" : "./node_modules/vue/dist/vue.common.js"
+  }
+}
