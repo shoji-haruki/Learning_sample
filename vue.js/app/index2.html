@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!-- 深さの反応性 -->
+  <div id="app">
+    {{ message }}
+  </div>
+
+  <div id="example">{{ message }}</div>
+
+
+
+
+
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    var vm = new Vue({
+      data: {
+        a: 1
+      }
+    })
+    // `vm.a` is now reactive
+
+    vm.b = 2
+    // `vm.b` is NOT reactive
+
+    // Vue.set(vm.someObject, 'b', 2)
+    // // こちらだと設定可能
+    // // this.$set(this.someObject, 'b', 2)
+
+    // // instead of `Object.assign(this.someObject, { a: 1, b: 2 })`
+    // this.someObject = Object.assign({}, this.someObject, { a: 1, b: 2 })
+    var vm = new Vue({
+      data: {
+        // declare message with an empty value
+        message: ''
+      },
+      template: '<div>{{ message }}</div>'
+    })
+    // set `message` later
+    vm.message = 'Hello!'
+
+    var vm = new Vue({
+      el: '#example',
+      data: {
+        message: '123'
+      }
+    })
+    vm.message = 'new message' // change data
+    vm.$el.textContent === 'new message' // false
+    Vue.nextTick(function () {
+      vm.$el.textContent === 'new message' // true
+    })
+
+    Vue.component('example', {
+  template: '<span>{{ message }}</span>',
+  data: function () {
+    return {
+      message: 'not updated'
+    }
+  },
+  methods: {
+    updateMessage: function () {
+      this.message = 'updated'
+      console.log(this.$el.textContent) // => 'not updated'
+      this.$nextTick(function () {
+        console.log(this.$el.textContent) // => 'updated'
+      })
+    }
+  }
+})
+// 上記と同じ結果
+methods: {
+  updateMessage: async function () {
+    this.message = 'updated'
+    console.log(this.$el.textContent) // => 'not updated'
+    await this.$nextTick()
+    console.log(this.$el.textContent) // => 'updated'
+  }
+}
+  </script>
+</body>
+</html>
