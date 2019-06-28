@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    {{ message }}
+  </div>
+
+  <!-- 単一のルート要素 -->
+  <!-- <h3>{{ title }}</h3> -->
+  <!-- error -->
+  <!-- <h3>{{ title }}</h3>
+  <div v-html="content"></div> -->
+
+  <!-- 以下に変更すると解決 -->
+  <div class="blog-post">
+    <h3>{{ title }}</h3>
+    <div v-html="content"></div>
+  </div>
+  
+    <blog-post
+      v-for="post in posts"
+      v-bind:key="post.id"
+      v-bind:title="post.title"
+      v-bind:content="post.content"
+      v-bind:publishedAt="post.publishedAt"
+      v-bind:comments="post.comments"
+    ></blog-post>
+
+    <blog-post
+      v-for="post in posts"
+      v-bind:key="post.id"
+      v-bind:post="post"
+    ></blog-post>
+
+    
+    <!-- 子コンポーネントのイベントを購読する -->
+    <div id="blog-posts-events-demo">
+      <div :style="{ fontSize: postFontSize + 'em' }">
+        <blog-post
+          v-for="post in posts"
+          v-bind:key="post.id"
+          v-bind:post="post"
+        ></blog-post>
+      </div>
+    </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    Vue.component('blog-post', {
+      props: ['post'],
+      template: `
+        <div class="blog-post">
+          <h3>{{ post.title }}</h3>
+          <div v-html="post.content"></div>
+        </div>
+      `
+    })
+
+    new Vue({
+      el: '#blog-posts-events-demo',
+      data: {
+        posts: [/* ... */],
+        postFontSize: 1
+      }
+    })
+  </script>
+</body>
+</html>
