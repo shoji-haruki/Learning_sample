@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <!-- スロットによるコンテンツ配信 -->
+  <alert-box>
+    Something bad happened.
+  </alert-box>
+
+  <!-- 動的なコンポーネント -->
+  <!-- currentTabComponent が変更されたとき、コンポーネントを変更します -->
+  <!-- <component v-bind:is="currentTabComponent"></component> -->
+  <div id="dynamic-component-demo" class="demo">
+    <button
+      v-for="tab in tabs"
+      v-bind:key="tab.name"
+      v-bind:class="['tab-button', { active: currentTab.name === tab.name }]"
+      v-on:click="currentTab = tab"
+    >{{ tab.name }}</button>
+  
+    <component
+      v-bind:is="currentTab.component"
+      class="tab"
+    ></component>
+  </div>
+
+  <!-- DOM テンプレートパース時の警告 -->
+  <!-- 本来あるべきではない場所に書くとなる -->
+  <table>
+    <tr is="blog-post-row"></tr>
+  </table>
+
+  <div id="dynamic-component-demo2" class="demo">
+    <button
+      v-for="tab in tabs"
+      v-bind:key="tab.name"
+      v-bind:class="['tab-button', { active: currentTab.name === tab.name }]"
+      v-on:click="currentTab = tab"
+    >{{ tab.name }}</button>
+  
+    <component
+      v-bind:is="currentTab.component"
+      class="tab"
+    ></component>
+  </div>
+
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!7'
+      }
+    })
+
+    Vue.component('alert-box', {
+      template: `
+        <div class="demo-alert-box">
+          <strong>Error!</strong>
+          <slot></slot>
+        </div>
+      `
+    })
+
+    var tabs = [
+      {
+        name: 'Home', 
+        component: { 
+          template: '<div>Home component</div>' 
+        }
+      },
+      {
+        name: 'Posts',
+        component: {
+          template: '<div>Posts component</div>'
+        }
+      },
+      {
+        name: 'Archive',
+        component: {
+          template: '<div>Archive component</div>',
+        }
+      }
+    ]
+
+    new Vue({
+      el: '#dynamic-component-demo',
+      data: {
+        tabs: tabs,
+        currentTab: tabs[0]
+      }
+    })
+
+    var tabs = [
+      {
+        name: 'Home', 
+        component: { 
+          template: '<div>Home component</div>' 
+        }
+      },
+      {
+        name: 'Posts',
+        component: {
+          template: '<div>Posts component</div>'
+        }
+      },
+      {
+        name: 'Archive',
+        component: {
+          template: '<div>Archive component</div>',
+        }
+      }
+    ]
+
+    new Vue({
+      el: '#dynamic-component-demo2',
+      data: {
+        tabs: tabs,
+        currentTab: tabs[1]
+      }
+    })
+
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
