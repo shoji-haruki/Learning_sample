@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <!-- テンプレート構文 -->
+  <!-- #Mustache -->
+  <span>Message: {{ msg }}</span>
+  <!-- <span v-once>This will never change: {{ msg }}</span>一度のみ　API -->
+
+  <p>Using mustaches: {{ rawHtml }}</p>
+　<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+
+<!-- html内部 -->
+
+<div v-bind:id="dynamicId"></div>
+
+<!-- ディレクティブ -->
+<p v-if="seen">Now you see me</p>
+
+<a v-bind:href="url"> ... </a>
+
+<a v-on:click="doSomething"> ... </a>
+
+<!-- 動的引数 -->
+<a v-bind:[attributeName]="url"> ... </a>
+<a v-on:[eventName]="doSomething"> ... </a>
+<!-- null 以外 以外string -->
+
+<!-- null = バインディング削除 -->
+
+<!-- これはコンパイラ警告を引き起こします -->
+<a v-bind:['foo' + bar]="value"> ... </a>
+
+<!-- in-DOM テンプレートの中では、v-bind:[someattr] に変換されます -->
+<a v-bind:[someAttr]="value"> ... </a>
+<!-- 装飾 -->
+<form v-on:submit.prevent="onSubmit"> ... </form>
+
+<!-- 省略記法 -->
+<!-- v-bind -->
+<!-- 完全な構文 -->
+<a v-bind:href="url"> ... </a>
+<!-- ↓                           ↓ -->
+<!-- 省略記法            ↓ -->
+<!-- <a :href="url"> ... </a>    ↓ -->
+                            <!-- ↓ -->
+<!-- 動的引数の省略記法 (2.6.0 以降) -->
+<a :[key]="url"> ... </a>
+
+<!-- v-on -->
+<!-- 完全な構文 -->
+<a v-on:click="doSomething"> ... </a>
+<!-- ↓                                  ↓ -->
+<!-- 省略記法                   ↓ -->
+<!-- <a @click="doSomething"> ... </a> ↓ -->
+<!-- 　                                 ↓ -->
+<!-- 動的引数の省略記法 (2.6.0 以降) -->
+<a @[event]="doSomething"> ... </a>
+
+
+
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    <!-- // js 式を展開可能 -->
+{{ number + 1 }}
+
+{{ ok ? 'YES' : 'NO' }}
+
+{{ message.split('').reverse().join('') }}
+
+<div v-bind:id="'list-' + id"></div>
+
+// <!-- 単一式のみ 以下は不可 -->
+// <!-- これは文であり、式ではありません: -->
+{{ var a = 1 }}
+
+// <!-- フロー制御もいずれも動作しません。三項演算子を使用してください -->
+{{ if (ok) { return message } }}
+    
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
