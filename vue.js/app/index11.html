@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <!-- HTML クラスのバインディング -->
+
+  <div v-bind:class="{ active: isActive }"></div>
+
+  <div id="app2"
+  class="static"
+  v-bind:class="{ active: isActive, 'text-danger': hasError }"
+></div>
+<!-- インライン要素以外の可能 -->
+<!-- <div v-bind:class="classObject"></div> -->
+<!-- 一般的なパターン -->
+<div v-bind:class="classObject"></div>
+
+
+<!-- 配列構文 -->
+<div v-bind:class="[activeClass, errorClass]"></div>
+<!-- ↓ -->
+<!-- <div class="active text-danger"></div> -->
+<!-- v-bind:class に配列を渡してクラスのリストを適用 -->
+
+<!-- 条件分岐　三項演算子 -->
+<div v-bind:class="[isActive ? activeClass : '', errorClass]"></div>
+
+<!-- 長いのでオブジェクト化 -->
+<div v-bind:class="[{ active: isActive }, errorClass]"></div>
+
+<!-- コンポーネント -->
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+
+      }
+    })
+
+    var app2 = new Vue({
+      el:  '#app2',
+      data: {
+        isActive: true,
+        hasError: false
+      }
+      // data: {
+      // classObject: {
+      //   active: true,
+      //   'text-danger': false
+      // }
+      // 結果は同じ
+// }
+// data: {
+//   isActive: true,
+//   error: null
+// },
+// computed: {
+//   classObject: function () {
+//     return {
+//       active: this.isActive && !this.error,
+//       'text-danger': this.error && this.error.type === 'fatal'
+//     }
+//   }
+// }
+    // data: {
+    //   activeClass: 'active',
+    //   errorClass: 'text-danger'
+    // }
+    })
+    
+
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
