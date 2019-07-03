@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <!-- フォーム入力バインディング -->
+
+  <!-- テキスト -->
+
+  <!-- 1行 -->
+  <div id=app5>
+    <input v-model="message" placeholder="edit me">
+    <p>Message is: {{ message }}</p>
+  </div>
+<!-- 複数行 -->
+  <div id=app6>
+    <span>Multiline message is:</span>
+    <p style="white-space: pre-line;">{{ message }}</p>
+    <br>
+    <textarea v-model="message" placeholder="add multiple lines"></textarea>
+  </div>
+  <!-- チェックボックス -->
+  <div id=app7>
+    <input type="checkbox" id="checkbox" v-model="checked">
+    <label for="checkbox">{{ checked }}</label>
+  </div>
+
+  <!-- チェックボックス　複数 -->
+  <div id='example-3'>
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames">
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+    <label for="mike">Mike</label>
+    <br>
+    <span>Checked names: {{ checkedNames }}</span>
+  </div>
+
+  <!-- ラジオ -->
+<div id=rj>
+  <input type="radio" id="one" value="One" v-model="picked">
+  <label for="one">One</label>
+  <br>
+  <input type="radio" id="two" value="Two" v-model="picked">
+  <label for="two">Two</label>
+  <br>
+  <span>Picked: {{ picked }}</span>
+</div>
+
+<!-- 選択 -->
+
+<!-- 単体 -->
+<!-- <div id=selecte>
+  <select v-model="selected">
+      <option disabled value="">Please select one</option>
+      <option>A</option>
+      <option>B</option>
+      <option>C</option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+</div> -->
+
+<!-- 複数選択 配列へ格納 -->
+<div id=hai>
+  <select v-model="selected" multiple>
+    <option disabled value="">Please select one</option>
+    <option>A</option>
+    <option>B</option>
+    <option>C</option>
+  </select>
+  <br>
+  <span>Selected: {{ selected }}</span>
+</div>
+
+  
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    var app5 = new Vue({
+      el: '#app5',
+      data: {
+        message:''
+      }
+    })
+
+    var app6 = new Vue({
+      el: '#app6',
+      data: {
+        message:''
+      }
+    })
+
+    var app7 = new Vue({
+      el: '#app7',
+      data: {
+        checked:false
+      }
+    })
+
+    new Vue({
+      el: '#example-3',
+      data: {
+        checkedNames: []
+      }
+    })
+
+    new Vue({
+      el: '#rj',
+      data: {
+        picked: ''
+      }
+    })
+
+    // new Vue({
+    //   el: '#selecte',
+    //   data: {
+    //     selected: ''
+    //   }
+    // })
+
+    new Vue({
+      el: '#hai',
+      data: {
+        selected: []
+      }
+    })
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
