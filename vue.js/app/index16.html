@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <!-- イベントハンドリング -->
+  <div id="example-1">
+    <button v-on:click="counter += 1">Add 1</button>
+    <p>The button above has been clicked {{ counter }} times.</p>
+  </div>
+
+  <div id="example-2">
+    <button v-on:click="greet">Greet</button>
+  </div>
+
+  <!-- インラインメソッドハンドラ -->
+
+  <div id="example-3">
+    <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+      Submit
+    </button>
+  </div>
+
+  <!-- イベント修飾子 -->
+
+  <!-- クリックイベントの伝搬が止まります -->
+<!-- <a v-on:click.stop="doThis"></a> -->
+
+<!-- submit イベントによってページがリロードされません -->
+<!-- <form v-on:submit.prevent="onSubmit"></form> -->
+
+<!-- 修飾子は繋げることができます -->
+<!-- <a v-on:click.stop.prevent="doThat"></a> -->
+
+<!-- 値を指定せず、修飾子だけ利用することもできます -->
+<!-- <form v-on:submit.prevent></form> -->
+
+<!-- イベントリスナーを追加するときにキャプチャモードで使います -->
+<!-- 言い換えれば、内部要素を対象とするイベントは、その要素によって処理される前にここで処理されます -->
+<!-- <div v-on:click.capture="doThis">.・..</div> -->
+
+<!-- event.target が要素自身のときだけ、ハンドラが呼び出されます -->
+<!-- 言い換えると子要素のときは呼び出されません -->
+<!-- <div v-on:click.self="doThat">...</div> -->
+
+<!-- 順番による範囲変更 -->
+<!-- v-on:click.prevent.self →全てのクリックイベントのみ -->
+<!-- v-on:click.self.prevent →要素自身におけるクリックイベントのみ -->
+
+<!-- 1回のみ -->
+<!-- <a v-on:click.once="doThis"></a>/ -->
+
+<!-- <div v-on:scroll.passive="onScroll">...</div> -->
+
+<!-- キー修飾子 -->
+<!-- エンターキーのみで反応する -->
+<!-- <input v-on:keyup.enter="submit"> -->
+
+<!-- 直接使用できる　形態変更　 -->
+<!-- <input v-on:keyup.page-down="onPageDown"> -->
+
+<!-- キーコード -->
+<!-- キーコードも使用可能だが非推奨 -->
+<!-- <input v-on:keyup.13="submit"> -->
+
+<!-- レガシーブラウザ対応用 -->
+<!-- .enter
+.tab
+.delete (“Delete” と “Backspace” キー両方をキャプチャします)
+.esc
+.space
+.up
+.down
+.left
+.right -->
+
+
+<!-- グローバルで使える ようにカスタム登録 -->
+<!-- // `v-on:keyup.f1` を可能にします   
+Vue.config.keyCodes.f1 = 112 -->
+
+<!-- 対応するキーが押されたときにのみマウスもしくはキーボードのイベントリスナ可能になる -->
+<!-- .ctrl
+.alt
+.shift
+.meta     マックでは　コマンドキーに当たる-->
+
+
+<!-- Alt + C -->
+<!-- <input @keyup.alt.67="clear"> -->
+
+<!-- Ctrl + Click -->
+<!-- <div @click.ctrl="doSomething">Do something</div> -->
+
+<!-- exact 修飾子 -->
+
+<!-- これは Ctrl に加えて Alt や Shift キーが押されていても発行されます -->
+<!-- <button @click.ctrl="onClick">A</button> -->
+
+<!-- これは Ctrl キーが押され、他のキーが押されてないときだけ発行されます -->
+<!-- <button @click.ctrl.exact="onCtrlClick">A</button> -->
+
+<!-- これは システム修飾子が押されてないときだけ発行されます -->
+<!-- <button @click.exact="onClick">A</button> -->
+
+<!-- マウスボタンの修飾子 -->
+
+<!-- .left
+.right
+.middle -->
+<!-- 特定のマウスボタンに制限 -->
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    var example1 = new Vue({
+      el: '#example-1',
+      data: {
+        counter: 0
+      }
+    })
+
+    var example2 = new Vue({
+      el: '#example-2',
+      data: {
+        name: 'Vue.js'
+      },
+      methods: {
+        greet: function (event) {
+          alert('Hello ' + this.name + '!')
+          if (event) {
+            alert(event.target.tagName)
+          }
+        }
+      }
+    })
+
+    new Vue({
+      el: '#example-3',
+      methods: {
+        warn: function (message, event) {
+          if (event) event.preventDefault()
+          alert(message)
+        }
+        // say: function (message) {
+        //   alert(message)
+        // }
+      }
+    })
+
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
