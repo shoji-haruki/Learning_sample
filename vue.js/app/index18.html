@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <!-- フォーム入力バインディング　動的　v-for使用 -->
+
+  <div id=ugoku>
+    <select v-model="selected">
+      <option v-for="option in options" v-bind:value="option.value">
+        {{ option.text }}
+      </option>
+    </select>
+    <span>Selected: {{ selected }}</span>
+  </div>
+
+  <!-- 値のバインディング -->
+  <!-- チェックされたとき、`picked` は文字列"a"になります -->
+<!-- <input type="radio" v-model="picked" value="a"> -->
+
+<!-- `toggle` は true かまたは false のどちらかです -->
+<!-- <input type="checkbox" v-model="toggle"> -->
+
+<!-- 最初のオプションが選択されたとき、`selected` は文字列"abc"です -->
+<!-- <select v-model="selected">
+  <option value="abc">ABC</option>
+</select>   -->
+
+<!-- チェックボックス -->
+<!-- 
+  動かない
+<div id=sample1>
+  <input
+  type="checkbox"
+  v-model="toggle"
+  true-value="yes"
+  false-value="no"
+  >
+</div> -->
+
+<!-- ラジオ -->
+<!-- <input type="radio" v-model="pick" v-bind:value="a"> -->
+
+<!-- 選択オプション -->
+<!-- <select v-model="selected"> -->
+<!-- インラインオブジェクトリテラル -->
+  <!-- <option v-bind:value="{ number: 123 }">123</option> -->
+<!-- </select> -->
+
+<!-- "input" の代わりに "change" 後に同期します -->
+<!-- <input v-model.lazy="msg" > -->
+
+<!-- 値を数値化 -->
+<!-- type=number　ですら値は数値化されてていない -->
+<!-- <input v-model.number="age" type="number"> -->
+
+
+<!-- trimユーザー入力したデータから空白を自動的にトリン除く -->
+<!-- <input v-model.trim="msg"> -->
+
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    new Vue({
+      el: '#ugoku',
+      data: {
+        selected: 'A',
+        options: [
+          { text: 'One', value: 'A' },
+          { text: 'Two', value: 'B' },
+          { text: 'Three', value: 'C' }
+        ]
+      }
+    })
+
+    // var vm = new Vue({
+    //   el: '#sample1',
+    //   data: {
+        
+    //   }
+    //   vm.toggle === 'yes'
+    //   vm.toggle === 'no'
+    // })
+    // チェックしたとき:
+// vm.pick === vm.a
+
+  // // 選択したとき:
+  // typeof vm.selected // => 'object'
+  // vm.selected.number // => 123
+
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
