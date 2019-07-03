@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <!-- v-for 範囲指定 -->
+  <!-- 10回繰り返し -->
+  <!-- <div>
+    <span v-for="n in 10">{{ n }} </span>
+  </div> -->
+
+  <!-- v-for を<template使用する>  -->
+  <!-- <ul>
+    <template v-for="item in items">
+      <li>{{ item.msg }}</li>
+      <li class="divider" role="presentation"></li>
+    </template>
+  </ul> -->
+
+  <!-- 優先度 v-for v-if　　優先度は繰り返し v-for 高い  -->
+<!-- ループを先に実行　完了していないもののみを表示 -->
+  <!-- <li v-for="todo in todos" v-if="!todo.isComplete">
+    {{ todo }}
+  </li> -->
+
+  <!-- ⬇︎ -->
+<!-- ループ実行を条件付きでスキップ -->
+  <!-- <ul v-if="todos.length">
+    <li v-for="todo in todos">
+      {{ todo }}
+    </li>
+  </ul>
+  <p v-else>No todos left!</p> -->
+
+
+  <!-- コンポーネントと　v-for -->
+  <!-- <my-component v-for="item in items" :key="item.id"></my-component> -->
+
+
+  <!-- コンポーネントで v-for を使用するとき、key は必須 自動では渡さないので指定する 隔離されたスコープがあるため-->
+<!--   
+  <my-component
+    v-for="(item, index) in items"
+    v-bind:item="item"
+    v-bind:index="index"
+    v-bind:key="item.id"
+  ></my-component> -->
+
+  <div id="todo-list-example">
+    <form v-on:submit.prevent="addNewTodo">
+      <label for="new-todo">Add a todo</label>
+      <input
+        v-model="newTodoText"
+        id="new-todo"
+        placeholder="E.g. Feed the cat"
+      >
+      <button>Add</button>
+    </form>
+    <ul>
+      <li
+        is="todo-item"
+        v-for="(todo, index) in todos"
+        v-bind:key="todo.id"
+        v-bind:title="todo.title"
+        v-on:remove="todos.splice(index, 1)"
+      ></li>
+    </ul>
+  </div>
+
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    Vue.component('todo-item', {
+  template: '\
+    <li>\
+      {{ title }}\
+      <button v-on:click="$emit(\'remove\')">Remove</button>\
+    </li>\
+  ',
+  props: ['title']
+})
+
+new Vue({
+  el: '#todo-list-example',
+  data: {
+    newTodoText: '',
+    todos: [
+      {
+        id: 1,
+        title: 'Do the dishes',
+      },
+      {
+        id: 2,
+        title: 'Take out the trash',
+      },
+      {
+        id: 3,
+        title: 'Mow the lawn'
+      }
+    ],
+    nextTodoId: 4
+  },
+  methods: {
+    addNewTodo: function () {
+      this.todos.push({
+        id: this.nextTodoId++,
+        title: this.newTodoText
+      })
+      this.newTodoText = ''
+    }
+  }
+})
+
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
