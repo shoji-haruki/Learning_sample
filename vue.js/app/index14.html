@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  <!-- リストレンダリング -->
+  <ul id="example-1">
+    <li v-for="item in items">
+      {{ item.message }}
+    </li>
+  </ul>
+
+  <ul id="example-2">
+    <li v-for="(item, index) in items">
+      {{ parentMessage }} - {{ index }} - {{ item.message }}
+    </li>
+  </ul>
+
+  <!-- in ではなく of も可能 -->
+  <!-- <div v-for="item of items"></div> -->
+
+  <!-- オブジェクトの v-for -->
+
+  <ul id="v-for-object" class="demo">
+    <!-- <li v-for="value in object">
+      {{ value }}
+    </li> -->
+
+    <!-- 二つ目の引数に キー名も指定可能 -->
+    <!-- <div v-for="(value, name) in object">
+      {{ name }}: {{ value }}
+    </div> -->
+
+    <!-- indexも付与可能 -->
+    <div v-for="(value, name, index) in object">
+      {{ index }}. {{ name }}: {{ value }}
+    </div>
+  
+  </ul>
+
+  <!-- 状態の維持(基本は自動更新のため) -->
+  <!-- v-bind:key　を使用 -->
+  <div v-for="item in items" v-bind:key="item.id">
+    <!-- content -->
+  </div>
+
+  <!-- メソッド変更 -->
+  <!-- push()
+  pop()
+  shift()
+  unshift()
+  splice()
+  sort()
+  reverse() -->
+
+  <!-- メソッド置き換え -->
+  <!-- filter()、concat()、slice()  -->
+  <!-- 変更せずに新しいものを返す(置き換える) -->
+  <!-- example1.items = example1.items.filter(function (item) {
+    return item.message.match(/Foo/)
+  }) -->
+
+
+  <!-- フィルター　ソート後の結果表示 -->
+
+<div id=appA>
+  <li v-for="n in even(numbers)">{{ n }}</li>
+  <!-- <li v-for="n in evenNumbers">{{ n }}</li> -->
+</div>
+  
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    var example1 = new Vue({
+      el: '#example-1',
+      data: {
+        items: [
+          { message: 'Foo' },
+          { message: 'Bar' }
+        ]
+      }
+    })
+
+    var example2 = new Vue({
+      el: '#example-2',
+      data: {
+        parentMessage: 'Parent',
+        items: [
+          { message: 'Foo' },
+          { message: 'Bar' }
+        ]
+      }
+    })
+
+    new Vue({
+      el: '#v-for-object',
+      data: {
+        object: {
+          title: 'How to do lists in Vue',
+          author: 'Jane Doe',
+          publishedAt: '2016-04-10'
+        }
+      }
+    })
+
+    // 注意変更検出不可
+    // インデックスでアイテムを直接設定 vm.items[indexOfItem] = newValue
+    // 配列の長さ変更 vm.items.length = newLength
+
+    // var vm = new Vue({
+    //   data: {
+    //     items: ['a', 'b', 'c']
+    //   }
+    // })
+    // vm.items[1] = 'x' // リアクティブではありません
+    // vm.items.length = 2 // リアクティブではありません
+
+    // 1への対処
+// Vue.set
+// Vue.set(vm.items, indexOfItem, newValue)
+
+// // Array.prototype.splice
+// vm.items.splice(indexOfItem, 1, newValue)
+
+// vm.$set
+// vm.$set(vm.items, indexOfItem, newValue)
+
+// 2への対処
+// vm.items.splice(newLength)
+
+// オブジェクトの変更検出の注意
+
+// var vm = new Vue({
+//   data: {
+//     a: 1
+//   }
+// })
+// // `vm.a` はリアクティブです
+
+// vm.b = 2
+// // `vm.b` はリアクティブではありません
+
+// 作成済みインスタンスの動的ルートの追加(普通だと不可)
+// Vue.set（object、propertyName、value）　　基本形
+var vm = new Vue({
+  data: {
+    userProfile: {
+      name: 'Anika'
+    }
+  }
+})
+// プロパティ追加
+// Vue.set(vm.userProfile, 'age', 27)
+// vm.$set  も使用可能
+// vm.$set(vm.userProfile, 'age', 27)
+console.log(vm.userProfile)
+
+// Object.assign(vm.userProfile, {
+//   age: 27,
+//   favoriteColor: 'Vue Green'
+// })
+
+// // ⬇︎以下のようにする
+// vm.userProfile = Object.assign({}, vm.userProfile, {
+//   age: 27,
+//   favoriteColor: 'Vue Green'
+// })
+
+
+// 算出プロパティ使用
+// var vm = new Vue({
+//   el: '#appA',
+//   data: {
+//   numbers: [ 1, 2, 3, 4, 5 ]
+//   },
+//   computed: {
+//     evenNumbers: function () {
+//       return this.numbers.filter(function (number) {
+//         return number % 2 === 0
+//       })
+//     }
+//   }
+// })
+
+// メソッド
+
+var vm = new Vue({
+  el: '#appA',
+  data: {
+    numbers: [ 1, 2, 3, 4, 5 ]
+  },
+  methods: {
+    even: function (numbers) {
+      return numbers.filter(function (number) {
+        return number % 2 === 0
+      })
+    }
+  }
+})
+
+
+
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
