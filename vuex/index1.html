@@ -7,21 +7,44 @@
 </head>
 <body>
 <!-- ========== HTML ======================================================= -->
-  <div id="app">
-    <p>{{ message }}</p>
-    <input v-model="message">
-  </div>
-
+<div id="app">
+  <p>{{ count }}</p>
+  <p>
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+  </p>
+</div>
 <!-- ========== HTML ======================================================= -->
 <!-- =========== JS ======================================================== -->
   <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-        message: 'Hello Vue!'
-      }
-    })
+// make sure to call Vue.use(Vuex) if using a module system
 
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+  	increment: state => state.count++,
+    decrement: state => state.count--
+  }
+})
+
+new Vue({
+  el: '#app',
+  computed: {
+    count () {
+	    return store.state.count
+    }
+  },
+  methods: {
+    increment () {
+      store.commit('increment')
+    },
+    decrement () {
+    	store.commit('decrement')
+    }
+  }
+})
   </script>
 <!-- =========== JS ======================================================== -->
 </body>
