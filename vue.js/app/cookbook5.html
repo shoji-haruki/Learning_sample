@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <!-- <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div> -->
+
+  <form
+  id="app"
+  @submit="checkForm"
+  action="https://vuejs.org/"
+  method="post"
+  novalidate="true"
+>
+
+  <p v-if="errors.length">
+    <b>Please correct the following error(s):</b>
+    <ul>
+      <li v-for="error in errors">{{ error }}</li>
+    </ul>
+  </p>
+
+  <p>
+    Given a budget of 100 dollars, indicate how much
+    you would spend on the following features for the
+    next generation Star Destroyer. Your total must sum up to 100.
+  </p>
+
+  <p>
+    <input
+      v-model.number="weapons"
+      type="number"
+      name="weapons"
+    > Weapons <br/>
+    <input
+      v-model.number="shields"
+      type="number"
+      name="shields"
+    > Shields <br/>
+    <input
+      v-model.number="coffee"
+      type="number"
+      name="coffee"
+    > Coffee <br/>
+    <input
+      v-model.number="ac"
+      type="number"
+      name="ac"
+    > Air Conditioning <br/>
+    <input
+      v-model.number="mousedroids"
+      type="number"
+      name="mousedroids"
+    > Mouse Droids <br/>
+  </p>
+
+  <p>
+    Current Total: {{total}}
+  </p>
+
+  <p>
+    <input
+      type="submit"
+      value="Submit"
+    >
+  </p>
+
+</form>
+
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    // var app = new Vue({
+    //   el: '#app',
+    //   data: {
+    //     message: 'Hello Vue!'
+    //   }
+    // })
+
+const app = new Vue({
+  el: '#app',
+  data:{
+    errors: [],
+    weapons: 0,
+    shields: 0,
+    coffee: 0,
+    ac: 0,
+    mousedroids: 0
+  },
+  computed: {
+    total: function () {
+      // Vue は空の値を string に変換するので、パースする必要があります
+      return Number(this.weapons) +
+        Number(this.shields) +
+        Number(this.coffee) +
+        Number(this.ac+this.mousedroids);
+    }
+  },
+  methods:{
+    checkForm: function (e) {
+      this.errors = [];
+
+      if (this.total != 100) {
+        this.errors.push('Total must be 100!');
+      }
+
+      if (!this.errors.length) {
+        return true;
+      }
+
+      e.preventDefault();
+    }
+  }
+})
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
