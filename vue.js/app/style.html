@@ -13,8 +13,149 @@
 
   <!-- スタイルガイド -->
   <!-- 必須A -->
+<!-- v-for には必ずキーをつける -->
+<ul>
+  <li v-for="todo in todos">
+    {{ todo.text }}
+  </li>
+</ul>
+<!-- ↓ -->
+<ul>
+  <li
+    v-for="todo in todos"
+    :key="todo.id"
+  >
+    {{ todo.text }}
+  </li>
+</ul>
 
+<!-- v-for と同じ要素に v-if を使わない -->
+<ul>
+  <li
+    v-for="user in users"
+    v-if="user.isActive"
+    :key="user.id"
+  >
+    {{ user.name }}
+  </li>
+</ul>
+<ul>
+  <li
+    v-for="user in users"
+    v-if="shouldShowUsers"
+    :key="user.id"
+  >
+    {{ user.name }}
+  </li>
+</ul>
+<!-- ↓ -->
+<ul>
+  <li
+    v-for="user in activeUsers"
+    :key="user.id"
+  >
+    {{ user.name }}
+  </li>
+</ul>
+<ul v-if="shouldShowUsers">
+  <li
+    v-for="user in users"
+    :key="user.id"
+  >
+    {{ user.name }}
+  </li>
+</ul>
+
+<!-- コンポーネントスタイルのスコープ -->
+<!-- <template> -->
+  <button class="btn btn-close">X</button>
+<!-- </template> -->
+
+<style>
+.btn-close {
+  background-color: yellow;
+}
+</style>
+<!-- ↓ -->
+
+<!-- <template> -->
+  <button class="button button-close">X</button>
+<!-- </template> -->
+
+<!-- 1`scoped` を使用 -->
+<style scoped>
+.button {
+  border: none;
+  border-radius: 2px;
+}
+
+.button-close {
+  background-color: red;
+}
+</style>
+
+<!-- <template> -->
+  <button :class="[$style.button, $style.buttonClose]">X</button>
+<!-- </template> -->
+
+<!--2 CSS modules を使用 -->
+<style module>
+.button {
+  border: none;
+  border-radius: 2px;
+}
+
+.buttonClose {
+  background-color: blue;
+}
+</style>
+
+<!-- <template> -->
+  <button class="c-Button c-Button--close">X</button>
+<!-- </template> -->
+
+<!-- 3BEM の慣例を使用 -->
+<style>
+.c-Button {
+  border: none;
+  border-radius: 2px;
+}
+
+.c-Button--close {
+  background-color: green;
+}
+</style>
   <!-- 強く推奨B -->
+  <!-- 自己終了形式のコンポーネント 強く推奨 -->
+  <!-- 単一ファイルコンポーネント、文字列テンプレート、JSX の中 -->
+<!-- <MyComponent></MyComponent> -->
+<!-- DOM テンプレートの中 -->
+<!-- <my-component/> -->
+<!-- ↓ -->
+<!-- 単一ファイルコンポーネント、文字列テンプレート、JSX の中 -->
+<!-- <MyComponent/> -->
+<!-- DOM テンプレートの中 -->
+<!-- <my-component></my-component> -->
+
+<!-- テンプレート内でのコンポーネント名の形式 -->
+<!-- 単一ファイルコンポーネント、文字列テンプレートの中 -->
+<!-- <mycomponent/> -->
+<!-- 単一ファイルコンポーネント、文字列テンプレートの中 -->
+<!-- <myComponent/> -->
+<!-- DOM テンプレートの中 -->
+<!-- <MyComponent></MyComponent> -->
+<!-- ↓ -->
+<!-- 単一ファイルコンポーネント、文字列テンプレートの中 -->
+<!-- <MyComponent/> -->
+<!-- DOM テンプレートの中 -->
+<!-- <my-component></my-component> -->
+
+
+<!-- どこでも -->
+<!-- <my-component></my-component> -->
+
+<!-- JS/JSX 内でのコンポーネント名の形式 -->
+<!-- 全てパスカルケース -->
 
   <!-- 推奨C -->
 
@@ -29,6 +170,249 @@
         message: 'Hello Vue!'
       }
     })
+
+  //   スタイルガイド
+  // 必須A
+  // コンポーネント名複数単語
+  // Vue.component('todo', {
+  //   // ...
+  // })
+  // export default {
+  //   name: 'Todo',
+  //   // ...
+  // }
+  // ↓
+  // Vue.component('todo-item', {
+  //   // ...
+  // })
+  // export default {
+  //   name: 'TodoItem',
+  //   // ...
+  // }
+
+  // コンポーネントのdataは関数で返す
+  // Vue.component('some-comp', {
+  //   data: {
+  //     foo: 'bar'
+  //   }
+  // })
+  // export default {
+  //   data: {
+  //     foo: 'bar'
+  //   }
+  // }
+
+  // ↓
+  // Vue.component('some-comp', {
+  //   data: function () {
+  //     return {
+  //       foo: 'bar'
+  //     }
+  //   }
+  // })
+  // // .vue ファイル内
+  // export default {
+  //   data () {
+  //     return {
+  //       foo: 'bar'
+  //     }
+  //   }
+  // }
+
+  // ルート(new vue)なら関数にしなくて良い
+  // new Vue({
+  //   data: {
+  //     foo: 'bar'
+  //   }
+  // })
+
+  // プロパティの定義は詳しく
+  // プロトタイピングの時だけ OK
+// props: ['status']
+// ↓
+// props: {
+//   status: String
+// }
+// // さらに良いです!
+// props: {
+//   status: {
+//     type: String,
+//     required: true,
+//     validator: function (value) {
+//       return [
+//         'syncing',
+//         'synced',
+//         'version-conflict',
+//         'error'
+//       ].indexOf(value) !== -1
+//     }
+//   }
+// }
+// 使い方がわかりやすい
+// エラーが起きた時警告が出る
+
+// プライベートなプラグイン名 
+// var myGreatMixin = {
+//   // ...
+//   methods: {
+//     update: function () {
+//       // ...
+//     }
+//   }
+// }
+// var myGreatMixin = {
+//   // ...
+//   methods: {
+//     _update: function () {
+//       // ...
+//     }
+//   }
+// }
+// var myGreatMixin = {
+//   // ...
+//   methods: {
+//     $update: function () {
+//       // ...
+//     }
+//   }
+// }
+// var myGreatMixin = {
+//   // ...
+//   methods: {
+//     $_update: function () {
+//       // ...
+//     }
+//   }
+// }
+// ↓
+
+// var myGreatMixin = {
+//   // ...
+//   methods: {
+//     $_myGreatMixin_update: function () {
+//       // ...
+//     }
+//   }
+// }
+// // さらによい!
+// var myGreatMixin = {
+//   // ...
+//   methods: {
+//     publicMethod() {
+//       // ...
+//       myPrivateFunction()
+//     }
+//   }
+// }
+
+// function myPrivateFunction() {
+//   // ...
+// }
+
+// export default myGreatMixin
+
+
+  // 強く推奨B
+
+// コンポーネントのファイル 各コンポーネントは別のファアイルにかく
+// Vue.component('TodoList', {
+//   // ...
+// })
+
+// Vue.component('TodoItem', {
+//   // ...
+// })
+// ↓
+// components/
+// |- TodoList.js
+// |- TodoItem.js
+// components/
+// |- TodoList.vue
+// |- TodoItem.vue
+
+// 単一ファイルコンポーネントのファイル名の形式
+
+// components/
+// |- mycomponent.vue
+// components/
+// |- myComponent.vue
+// ↓
+// components/
+// |- MyComponent.vue
+// components/
+// |- my-component.vue
+
+
+// 基底コンポーネントの名前
+// components/
+// |- MyButton.vue
+// |- VueTable.vue
+// |- Icon.vue
+// ↓
+// components/
+// |- BaseButton.vue
+// |- BaseTable.vue
+// |- BaseIcon.vue
+// components/
+// |- AppButton.vue
+// |- AppTable.vue
+// |- AppIcon.vue
+// components/
+// |- VButton.vue
+// |- VTable.vue
+// |- VIcon.vue
+
+// 単一インスタンスのコンポーネント名
+// the をつける
+// components/
+// |- Heading.vue
+// |- MySidebar.vue
+// ↓
+// components/
+// |- TheHeading.vue
+// |- TheSidebar.vue
+
+// 密結合コンポーネントの名前
+// 親コンポーネントと密結合した子コンポーネントには、親コンポーネントの名前をプレフィックスとして含ませる
+// components/
+// |- TodoList.vue
+// |- TodoItem.vue
+// |- TodoButton.vue
+// components/
+// |- SearchSidebar.vue
+// |- NavigationForSearchSidebar.vue
+// ↓
+// components/
+// |- TodoList.vue
+// |- TodoListItem.vue
+// |- TodoListItemButton.vue
+// components/
+// |- SearchSidebar.vue
+// |- SearchSidebarNavigation.vue
+
+// コンポーネント名における単語の順番
+// コンポーネント名は、最高レベルの(たいていは最も一般的な)単語から始めて、説明的な修飾語で終わるべき
+// components/
+// |- ClearSearchButton.vue
+// |- ExcludeFromSearchInput.vue
+// |- LaunchOnStartupCheckbox.vue
+// |- RunSearchButton.vue
+// |- SearchInput.vue
+// |- TermsCheckbox.vue
+// ↓
+// components/
+// |- SearchButtonClear.vue
+// |- SearchButtonRun.vue
+// |- SearchInputQuery.vue
+// |- SearchInputExcludeGlob.vue
+// |- SettingsCheckboxTerms.vue
+// |- SettingsCheckboxLaunchOnStartup.vue
+
+
+
+  // 推奨C
+
+  // 使用注意D
 
   </script>
 <!-- =========== JS ======================================================== -->

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+<!-- 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.2/axios.js"></script>
+
+<div id="app">
+  <ul>
+    <li v-for="user in users">{{ user.name }}</li>
+  </ul>
+</div> -->
+
+  
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    // Vue.prototype.$http = axios
+
+    // new Vue({
+    //   el: '#app',
+    //   data: {
+    //     users: []
+    //   },
+    //   created() {
+    //     var vm = this
+    //     this.$http
+    //       .get('https://jsonplaceholder.typicode.com/users')
+    //       .then(function(response) {
+    //         vm.users = response.data
+    //       })
+    //   }
+    // })
+
+  Vue.prototype.$reverseText = function(propertyName) {
+    this[propertyName] = this[propertyName]
+      .split('')
+      .reverse()
+      .join('')
+  }
+
+  new Vue({
+    data: {
+      message: 'Hello'
+    },
+    created: function() {
+      console.log(this.message) // => "Hello"
+      this.$reverseText('message')
+      console.log(this.message) // => "olleH"
+    }
+  })
+
+  // アロー関数
+//   Vue.prototype.$reverseText = propertyName => {
+//   this[propertyName] = this[propertyName]
+//     .split('')
+//     .reverse()
+//     .join('')
+// }
+
+// 代替パターン
+
+// var App = Object.freeze({
+//   name: 'My App',
+//   version: '2.1.4',
+//   helpers: {
+//     // これは前に見た $reverseText メソッドの
+//     // 純粋関数バージョンです
+//     reverseText: function(text) {
+//       return text
+//         .split('')
+//         .reverse()
+//         .join('')
+//     }
+//   }
+// })
+
+// new Vue({
+//   data: {
+//     appVersion: App.version
+//   },
+//   methods: {
+//     reverseText: App.helpers.reverseText
+//   }
+// })
+
+// モジュールシステムを使用する場合
+// 必要な場所でrequire/import
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>

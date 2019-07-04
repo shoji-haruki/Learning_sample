@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+  <div id="app">
+    <p>{{ message }}</p>
+    <input v-model="message">
+  </div>
+
+  
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello Vue!'
+      }
+    })
+
+    // <!-- インスタンスプロパティの追加 -->
+    Vue.prototype.$appName = 'My App'
+    Vue.prototype.appName = 'My App'
+
+    new Vue({
+      beforeCreate: function() {
+        console.log(this.$appName)
+      }
+    })
+
+    new Vue({
+      data: {
+        appName: 'The name of some other app'
+      },
+      beforeCreate: function() {
+        console.log(this.appName)
+      },
+      created: function() {
+        console.log(this.appName)
+      }
+    })
+
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
