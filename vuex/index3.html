@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+<!-- ゲッター -->
+
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    import { mapGetters } from 'vuex'
+
+export default {
+  const store = new Vuex.Store({
+  state: {
+    todos: [
+      { id: 1, text: '...', done: true },
+      { id: 2, text: '...', done: false }
+    ]
+  },
+  getters: {
+    doneTodos: state => {
+      return state.todos.filter(todo => todo.done)
+    },
+    doneTodosCount: (state, getters) => {
+      return getters.doneTodos.length
+    },
+    getTodoById: (state) => (id) => {
+      return state.todos.find(todo => todo.id === id)
+    },
+  },
+  computed: {
+    // ...mapGetters([
+    //   'doneTodosCount',
+    //   'anotherGetter',
+    //   // ...
+    // ])
+//     ↓
+//     ...mapGetters({
+//   // `this.doneCount` を `this.$store.getters.doneTodosCount` にマッピングさせる
+//   doneCount: 'doneTodosCount'
+// })
+    doneTodosCount () {
+      // console.log(this.$store.state.todos.filter(todo => todo.done).length)
+
+      // return this.$store.state.todos.filter(todo => todo.done).length
+      return this.$store.getters.doneTodosCount
+    }
+
+  }
+}
+
+// コンソールで実行
+  // store.getters.doneTodos // -> [{ id: 1, text: '...', done: true }]
+  // store.getters.doneTodosCount // -> 1
+
+  // getters: {
+  //   // ...
+  //   doneTodosCount: (state, getters) => {
+  //     return getters.doneTodos.length
+  //   }
+  // }
+})
+    
+
+    // プロパティスタイルアクセス
+  </script>
+
+
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
