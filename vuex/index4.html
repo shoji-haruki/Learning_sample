@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex"></script>
+</head>
+<body>
+<!-- ========== HTML ======================================================= -->
+<!-- 追加の引数　ミューテーション -->
+<div id="app">
+<p>{{ count }}</p>
+<p>
+  <button @click="increment">+</button>
+  <button @click="decrement">-</button>
+</p>
+</div>
+<!-- ========== HTML ======================================================= -->
+<!-- =========== JS ======================================================== -->
+  <script>
+    // オブジェクトで渡す
+    const store = new Vuex.Store({
+      state: {
+        count: 1
+      },
+      mutations: {
+        increment (state, payload) {
+          state.count += payload.amount
+        }
+      }
+    })
+    // store.commit('increment')
+    store.commit('increment', {
+      amount: 10
+      
+    })
+    store.commit({
+      type: 'increment',
+      amount: 10
+    })
+    // オブジェクトスタイルのコミット
+
+    定数にする
+    // export const SOME_MUTATION = 'SOME_MUTATION'
+
+// // store.js
+// import Vuex from 'vuex'
+// import { SOME_MUTATION } from './mutation-types'
+
+// const store = new Vuex.Store({
+//   state: { ... },
+//   mutations: {
+//     // 定数を関数名として使用できる ES2015 の算出プロパティ名（computed property name）機能を使用できます
+//     [SOME_MUTATION] (state) {
+//       // 状態を変更する
+//     }
+//   }
+// })
+
+// mutations: {
+//   someMutation (state) {
+//     api.callAsyncMethod(() => {
+//       state.count++
+//     })
+//   }
+// }
+// コールバック内で起きる状態変化は追跡不可
+
+// store.commit('increment')
+// ↑状態変化はこの時点で行う
+  </script>
+<!-- =========== JS ======================================================== -->
+</body>
+</html>
